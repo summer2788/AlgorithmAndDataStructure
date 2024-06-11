@@ -1,5 +1,4 @@
-# Ignore everything
-*
+
 
 # But not these files...
 !.gitignore
@@ -11,6 +10,9 @@
 # Allow only .cpp files within Algorithm and DataStructure directories
 Algorithm/**/*.cpp
 DataStructure/**/*.cpp
+
+# Ignore everything
+*
 
 # Ignore other common build artifacts and temporary files
 *.o
