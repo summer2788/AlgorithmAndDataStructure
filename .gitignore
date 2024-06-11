@@ -1,17 +1,18 @@
 # Ignore everything
 *
 
+# But not these files...
+!.gitignore
 
 # Allow the Algorithm and DataStructure directories
 !Algorithm/
 !DataStructure/
 
+# Allow only .cpp files within Algorithm and DataStructure directories
+Algorithm/**/*.cpp
+DataStructure/**/*.cpp
 
-# But not these files...
-!.gitignore
-!*.cpp
-
-# Ignore object files, compiled files, and other build artifacts
+# Ignore other common build artifacts and temporary files
 *.o
 *.obj
 *.so
@@ -20,12 +21,18 @@
 *.a
 *.lib
 *.dll
-
-# Ignore temporary files and folders
 *.log
 *.tmp
 *.swp
 *.swo
+
+# Ignore files without extensions
+Algorithm/*
+DataStructure/*
+
+# Specifically allow .cpp files in Algorithm and DataStructure directories
+!Algorithm/*.cpp
+!DataStructure/*.cpp
 
 # Ignore DS_Store file on macOS
 .DS_Store
