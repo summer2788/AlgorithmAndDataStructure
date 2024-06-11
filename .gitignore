@@ -1,3 +1,11 @@
+# Ignore everything
+*
+
+
+# Allow the Algorithm and DataStructure directories
+!Algorithm/
+!DataStructure/
+
 
 # But not these files...
 !.gitignore
