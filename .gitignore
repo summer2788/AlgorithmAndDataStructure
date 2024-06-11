@@ -1,0 +1,51 @@
+# Ignore everything
+*
+
+# But not these files...
+!.gitignore
+!*.cpp
+
+# Ignore object files, compiled files, and other build artifacts
+*.o
+*.obj
+*.so
+*.exe
+*.out
+*.a
+*.lib
+*.dll
+
+# Ignore temporary files and folders
+*.log
+*.tmp
+*.swp
+*.swo
+
+# Ignore DS_Store file on macOS
+.DS_Store
+
+# Ignore Xcode specific files and folders
+*.xcworkspace
+*.xcuserdata
+*.xcodeproj
+*.dSYM
+
+# Ignore macOS specific files
+._*
+.Spotlight-V100
+.Trashes
+.DS_Store
+._.DS_Store
+.fseventsd
+.VolumeIcon.icns
+
+# Ignore build directories
+build/
+Build/
+Debug/
+debug/
+Release/
+release/
+out/
+bin/
+obj/
