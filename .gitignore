@@ -8,21 +8,21 @@
 !Algorithm/
 !DataStructure/
 
-# Allow only .cpp and .h files within Algorithm and DataStructure directories
+# Allow .cpp and .h files within Algorithm and DataStructure directories, including subdirectories
 !Algorithm/**/*.cpp
 !Algorithm/**/*.h
 !DataStructure/**/*.cpp
 !DataStructure/**/*.h
 
 # Ignore all files without extensions in Algorithm and DataStructure directories
-Algorithm/*
-DataStructure/*
+# But allow .cpp and .h files specifically
+Algorithm/**/*
+!Algorithm/**/*.cpp
+!Algorithm/**/*.h
 
-# Specifically allow .cpp and .h files in Algorithm and DataStructure directories
-!Algorithm/*.cpp
-!Algorithm/*.h
-!DataStructure/*.cpp
-!DataStructure/*.h
+DataStructure/**/*
+!DataStructure/**/*.cpp
+!DataStructure/**/*.h
 
 # Ignore other common build artifacts and temporary files
 *.o
