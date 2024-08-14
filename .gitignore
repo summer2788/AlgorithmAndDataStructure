@@ -1,12 +1,14 @@
 # Ignore everything
 *
 
-t these files...
+# Allow only .gitignore file
 !.gitignore
 
 # Allow the Algorithm and DataStructure directories
 !Algorithm/
 !DataStructure/
+!Algorithm/Graph/
+
 
 # Allow only .cpp and .h files within Algorithm and DataStructure directories
 !Algorithm/**/*.cpp
