@@ -8,7 +8,7 @@
                 "-fcolor-diagnostics",
                 "-fansi-escape-codes",
                 "-ggdb",
-                // "-g",
+                "-g",
                 "${file}",
                 "-std=c++17",
                 "-o",
