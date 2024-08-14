@@ -1,25 +1,28 @@
-# But not these files...
+# Ignore everything
+*
+
+t these files...
 !.gitignore
 
 # Allow the Algorithm and DataStructure directories
 !Algorithm/
 !DataStructure/
 
-# Allow .cpp and .h files within Algorithm and DataStructure directories, including subdirectories
+# Allow only .cpp and .h files within Algorithm and DataStructure directories
 !Algorithm/**/*.cpp
 !Algorithm/**/*.h
 !DataStructure/**/*.cpp
 !DataStructure/**/*.h
 
 # Ignore all files without extensions in Algorithm and DataStructure directories
-# But allow .cpp and .h files specifically
-Algorithm/**/*
-!Algorithm/**/*.cpp
-!Algorithm/**/*.h
+Algorithm/*
+DataStructure/*
 
-DataStructure/**/*
-!DataStructure/**/*.cpp
-!DataStructure/**/*.h
+# Specifically allow .cpp and .h files in Algorithm and DataStructure directories
+!Algorithm/*.cpp
+!Algorithm/*.h
+!DataStructure/*.cpp
+!DataStructure/*.h
 
 # Ignore other common build artifacts and temporary files
 *.o
