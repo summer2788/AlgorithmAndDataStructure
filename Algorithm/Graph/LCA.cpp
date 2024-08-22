@@ -4,105 +4,106 @@
 
 using namespace std;
 
-int max_level;
+#define H 17
+
+vector<vector<int>> adl;
+vector<int> visited;
 vector<vector<int>> parent;
 vector<int> depth;
-vector<int> adj[100001];
-vector<int> visited(100001, 0);
 
-struct Graph
+int lca(int a, int b)
 {
-    int V;
-    vector<vector<int>> adj;
-    Graph(int V)
+    // set the depth equal
+    if (depth[a] - depth[b] < 0)
     {
-        this->V = V;
-        adj.resize(V);
+        swap(a, b);
     }
-    void addEdge(int u, int v)
-    {
-        adj[u].push_back(v);
-        adj[v].push_back(u);
-    }
-};
 
-int lca(int u, int v)
-{
-    if (depth[u] > depth[v])
-        swap(u, v);
-    for (int i = max_level; i >= 0; i--)
+    int diff = depth[a] - depth[b];
+
+    for (int i = 0; diff != 0; i++)
     {
-        if (depth[v] - depth[u] >= (1 << i))
+        if (diff % 2 == 1)
         {
-            v = parent[v][i];
+            a = parent[i][a];
+        }
+        diff >>= 1;
+    }
+
+    if (a == b)
+    {
+        return a;
+    }
+
+    for (int i = H - 1; i >= 0; i--)
+    {
+        if (parent[i][a] != parent[i][b])
+        {
+            a = parent[i][a];
+            b = parent[i][b];
         }
     }
-    if (u == v)
-        return u;
-    for (int i = max_level; i >= 0; i--)
-    {
-        if (parent[u][i] != parent[v][i])
-        {
-            u = parent[u][i];
-            v = parent[v][i];
-        }
-    }
-    return parent[u][0];
+
+    return parent[0][a];
 }
 
 int main()
 {
-    // make temp graph
-    Graph g(9);
-    g.addEdge(0, 1);
-    g.addEdge(0, 2);
-    g.addEdge(1, 3);
-    g.addEdge(1, 4);
-    g.addEdge(2, 5);
-    g.addEdge(4, 6);
-    g.addEdge(4, 7);
-    g.addEdge(5, 8);
+    int n = 9;
+    adl = vector<vector<int>>(n);
+    visited = vector<int>(n, 0);
+    parent = vector<vector<int>>(H, vector<int>(n, 0));
+    depth = vector<int>(n, 0);
 
-    // make parent, depth
-    max_level = 20;
-    parent.resize(9, vector<int>(max_level + 1));
-    depth.resize(9, 0);
+    adl[0].push_back(1);
+    adl[1].push_back(0);
+    adl[0].push_back(2);
+    adl[2].push_back(0);
+    adl[1].push_back(3);
+    adl[3].push_back(1);
+    adl[1].push_back(4);
+    adl[4].push_back(1);
+    adl[2].push_back(5);
+    adl[5].push_back(2);
+    adl[4].push_back(6);
+    adl[6].push_back(4);
+    adl[4].push_back(7);
+    adl[7].push_back(4);
+    adl[5].push_back(8);
+    adl[8].push_back(5);
 
     queue<int> q;
     q.push(0);
-    parent[0][0] = 0;
-
-    for (int j = 1; j <= max_level; j++)
-    {
-        for (int i = 0; i < 9; i++)
-        {
-            if (parent[i][j - 1] == 0)
-                parent[i][j] = 0;
-            else
-                parent[i][j] = parent[parent[i][j - 1]][j - 1];
-        }
-    }
-
+    visited[0] = 1;
     while (!q.empty())
     {
-        int cur = q.front();
+        int here = q.front();
         q.pop();
-        for (int next : g.adj[cur])
+        for (int i = 0; i < adl[here].size(); i++)
         {
-            if (!visited[next])
+            int there = adl[here][i];
+            if (!visited[there])
             {
-                visited[next] = 1;
-                depth[next] = depth[cur] + 1;
-                parent[next][0] = cur;
-                q.push(next);
+                q.push(there);
+                visited[there] = 1;
+                parent[0][there] = here;
+                depth[there] = depth[here] + 1;
             }
         }
     }
 
-    cout << lca(6, 8) << '\n';
-    cout << lca(3, 8) << '\n';
-    cout << lca(4, 7) << '\n';
-    cout << lca(3, 5) << '\n';
-    cout << lca(1, 2) << '\n';
+    for (int i = 1; i < H; i++)
+    {
+        for (int j = 0; j < n; j++)
+        {
+            parent[i][j] = parent[i - 1][parent[i - 1][j]];
+        }
+    }
+
+    cout << lca(3, 5) << endl;
+    cout << lca(6, 8) << endl;
+    cout << lca(7, 8) << endl;
+    cout << lca(3, 7) << endl;
+
     return 0;
 }
