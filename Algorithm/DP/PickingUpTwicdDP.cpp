@@ -228,9 +228,10 @@ int main()
                 if (j > i + 1 || k > i + 1)
                     continue;
 
-                if (grid[j][y1] == -1 || grid[k][y2] == -1)
+                // Ensure positions are valid and within bounds
+                if (y1 < 1 || y1 > N || y2 < 1 || y2 > N || grid[j][y1] == -1 || grid[k][y2] == -1)
                 {
-                    continue;
+                    continue; // Skip blocked cells or out-of-bounds positions
                 }
 
                 int max_prev = -1;
