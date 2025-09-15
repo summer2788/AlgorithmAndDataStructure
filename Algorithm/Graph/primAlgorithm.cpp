@@ -5,14 +5,14 @@
 
 using namespace std;
 
-vector<pair<int, int>> adj[100]; // adjacency list pair: {weight, vertex}
+vector<pair<int, int>> adj[100]; // adjacency list pair: {vertex, weight}
 vector<bool> visited(100, false);
 
 int primAlgorithm(int start)
 {
     int cost = 0;
     priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;
-    pq.push({0, start});
+    pq.push({0, start}); // weight , vertex
     while (!pq.empty())
     {
         int u = pq.top().second;

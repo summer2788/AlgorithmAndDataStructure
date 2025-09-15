@@ -1,65 +1,59 @@
-// O(NlogN)
+// // O(nlogn)
+
 // #include <iostream>
+// #include <vector>
+// using namespace std;
 
-// int Partition(int arr[], int pivot, int high)
+// // Function to partition the array
+// int partition(vector<int> &arr, int low, int high)
 // {
-//     int i = pivot + 1;
-//     int j = high;
-//     while (true)
+//     int pivot = arr[high]; // Choose the pivot
+//     int i = low - 1;       // Index of smaller element
+
+//     for (int j = low; j < high; j++)
 //     {
-//         while (i < high && arr[i] < arr[pivot])
+//         // If the current element is smaller than the pivot
+//         if (arr[j] < pivot)
 //         {
-//             i += 1;
+//             i++; // Move the boundary for elements smaller than pivot
+//             swap(arr[i], arr[j]);
 //         }
-//         while (j > pivot && arr[j] > arr[pivot])
-//         {
-//             j--;
-//         }
-//         if (j <= i)
-//         {
-//             break;
-//         }
-
-//         std::swap(arr[i], arr[j]);
-//         i++;
-//         j--;
 //     }
-
-//     std::swap(arr[j], arr[pivot]);
-//     return j;
+//     // Place the pivot element in the correct position
+//     swap(arr[i + 1], arr[high]);
+//     return i + 1;
 // }
 
-// void QuickSort(int arr[], int low, int high)
+// // Quick Sort function
+// void quickSort(vector<int> &arr, int low, int high)
 // {
 //     if (low < high)
 //     {
-//         int pivot = Partition(arr, low, high);
-//         QuickSort(arr, low, pivot - 1);
-//         QuickSort(arr, pivot + 1, high);
-//     }
-// }
+//         // Partition the array
+//         int pi = partition(arr, low, high);
 
-// void PrintArray(const int arr[], int size)
-// {
-//     for (int i = 0; i < size; i++)
-//     {
-//         std::cout << arr[i] << " ";
+//         // Recursively sort elements before and after partition
+//         quickSort(arr, low, pi - 1);
+//         quickSort(arr, pi + 1, high);
 //     }
-//     std::cout << std::endl;
 // }
 
 // int main()
 // {
-//     int arr[] = {39, 23, 15, 47, 11, 56, 61, 16, 12, 19, 21, 41};
-//     int length = sizeof(arr) / sizeof(arr[0]);
+//     vector<int> arr = {10, 80, 30, 90, 40, 50, 70};
+//     int n = arr.size();
 
-//     std::cout << "Array before sorting: ";
-//     PrintArray(arr, length);
+//     cout << "Original array: ";
+//     for (int x : arr)
+//         cout << x << " ";
+//     cout << endl;
 
-//     QuickSort(arr, 0, length - 1);
+//     quickSort(arr, 0, n - 1);
 
-//     std::cout << "Array after sorting: ";
-//     PrintArray(arr, length);
+//     cout << "Sorted array: ";
+//     for (int x : arr)
+//         cout << x << " ";
+//     cout << endl;
 
 //     return 0;
 // }

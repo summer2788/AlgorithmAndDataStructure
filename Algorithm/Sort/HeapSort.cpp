@@ -1,5 +1,8 @@
 // #include <iostream>
 
+// // Heapify : O(N)
+// // HeapSort O(NlogN)
+
 // void DownHeap(int arr[], int i, int size)
 // {
 //     while (2 * i + 1 <= size - 1)

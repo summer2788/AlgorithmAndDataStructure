@@ -1,6 +1,8 @@
 // #include <iostream>
 // #include <iterator> // for std::size
 
+// // O(N^2)
+
 // void swap(int *xp, int *yp)
 // {
 //     int temp = *xp;

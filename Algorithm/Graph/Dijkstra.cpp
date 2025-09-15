@@ -24,7 +24,7 @@ void dijkstra(int start)
     {
         auto [d, u] = pq.top();
         pq.pop();
-        if (d != dist[u])
+        if (d != dist[u]) // earlier dist is detected -> Throw away
             continue;
         for (auto [v, w] : adj[u])
         {
