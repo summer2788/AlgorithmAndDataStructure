@@ -2,6 +2,9 @@
 Heap is a data structure that satisfy the complete binary tree property and the property that
 of priority of the parent node is highert than the child one.
 key
+
+BuildHeap: O(N)
+Insert, ExtractMax: O(logN)
 */
 
 // #include <iostream>
