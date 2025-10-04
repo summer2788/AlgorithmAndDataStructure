@@ -1,3 +1,5 @@
+//segment tree 설명 https://yoongrammer.tistory.com/103
+
 #include <iostream>
 #include <vector>
 
