@@ -1,47 +1,48 @@
+// BFS always construct shortest path .
+// to find the simple path s to v, we can print v's parent recursively
+// BFS construct Bread-first-tree which include simple path
+
 #include <bits/stdc++.h>
 using namespace std;
 
-void bfs(int start, vector<vector<int>> &graph) {
-  vector<bool> visited(graph.size(), false);
+void BFS(const vector<vector<int>> &adj, int s) {
+  int n = adj.size();
+  vector<int> color(n, 0); // 0: WHITE, 1: GRAY, 2: BLACK
+  vector<int> dist(n, INT_MAX);
+  vector<int> parent(n, -1);
+
   queue<int> q;
-  q.push(start);
-  visited[start] = true;
 
-  int depth = 0; // 현재 레벨 (depth)
+  color[s] = 1; // start GRAY
+  dist[s] = 0;
+  q.push(s);
+
   while (!q.empty()) {
-    int sz = q.size(); // 현재 레벨의 노드 수
+    int u = q.front();
+    q.pop();
 
-    cout << "Depth " << depth << ": ";
-    for (int i = 0; i < sz; ++i) {
-      int cur = q.front();
-      q.pop();
-      cout << cur << " ";
-
-      // 다음 레벨의 자식 노드들 enqueue
-      for (int nxt : graph[cur]) {
-        if (!visited[nxt]) {
-          visited[nxt] = true;
-          q.push(nxt);
-        }
+    for (int v : adj[u]) {
+      if (color[v] == 0) {     // WHITE → undiscovered
+        color[v] = 1;          // GRAY → discovered
+        dist[v] = dist[u] + 1; // shortest distance update
+        parent[v] = u;
+        q.push(v);
       }
     }
-    cout << "\n";
-    depth++; // 다음 레벨로 이동
+
+    color[u] = 2; // BLACK → fully processed
+  }
+
+  // 출력 (옵션)
+  for (int i = 0; i < n; i++) {
+    cout << "node " << i << " dist = " << dist[i] << " parent = " << parent[i]
+         << "\n";
   }
 }
 
 int main() {
-  int n = 6;
-  vector<vector<int>> graph = {
-      {},     // 0 (dummy)
-      {2, 3}, // 1
-      {4, 5}, // 2
-      {6},    // 3
-      {},     // 4
-      {},     // 5
-      {}      // 6
-  };
+  // 예시 그래프 (0-based)
+  vector<vector<int>> graph = {{1, 2}, {0, 3}, {0, 3}, {1, 2}};
 
-  bfs(1, graph);
-  return 0;
+  BFS(graph, 0);
 }
