@@ -11,11 +11,13 @@ public:
     }
   }
 
-  int find(int node) {
-    if (Parent[node] != node) {
-      Parent[node] = find(Parent[node]);
+  int find(int a) {
+
+    if (parent[a] == a) {
+      return a;
     }
-    return Parent[node];
+
+    return parent[a] = find(parent[a]);
   }
 
   bool unionNodes(int u, int v) {
