@@ -1,66 +1,64 @@
-#include <iostream>
-#include <vector>
-#include <algorithm>
-
+#include <bits/stdc++.h>
 using namespace std;
 
-int dp[1001][1001] = {
-    0,
-};
+// Build the DP table for LCS lengths.
+vector<vector<int>> buildLCSdp(const string &A, const string &B) {
+  int m = (int)A.size();
+  int n = (int)B.size();
 
-int main()
-{
-    ios::sync_with_stdio(false);
-    cin.tie(0);
+  // dp[i][j] = length of LCS of A[0..i-1], B[0..j-1]
+  vector<vector<int>> dp(m + 1, vector<int>(n + 1, 0));
 
-    string tempA, tempB;
-    cin >> tempA >> tempB;
-    string A = " " + tempA;
-    string B = " " + tempB;
-
-    for (int i = 1; i < A.size(); i++)
-    {
-        for (int j = 1; j < B.size(); j++)
-        {
-            if (A[i] == B[j])
-            {
-                dp[i][j] = dp[i - 1][j - 1] + 1;
-            }
-            else
-            {
-                dp[i][j] = max(dp[i][j - 1], dp[i - 1][j]);
-            }
-        }
+  for (int i = 1; i <= m; ++i) {
+    for (int j = 1; j <= n; ++j) {
+      if (A[i - 1] == B[j - 1]) {
+        dp[i][j] = dp[i - 1][j - 1] + 1;
+      } else {
+        dp[i][j] = max(dp[i - 1][j], dp[i][j - 1]);
+      }
     }
+  }
+  return dp;
+}
 
-    int r = A.size() - 1;
-    int c = B.size() - 1;
-    string result = "";
-    while (dp[r][c])
-    {
-        if (dp[r][c] == dp[r][c - 1])
-        {
-            c = c - 1;
-        }
-        else if (dp[r][c] == dp[r - 1][c])
-        {
-            r = r - 1;
-        }
-        else
-        {
-            result += B[c];
-            r = r - 1;
-            c = c - 1;
-        }
+// Reconstruct LCS string using the dp table (iterative backtracking).
+string reconstructLCS(const string &A, const string &B,
+                      const vector<vector<int>> &dp) {
+  int r = (int)A.size();
+  int c = (int)B.size();
+
+  string result = "";
+
+  // Follow the "gradient" of the dp table back to dp[0][0]
+  // while the current cell still corresponds to a non-empty LCS.
+  while (r > 0 && c > 0 && dp[r][c] > 0) {
+    if (dp[r][c] == dp[r][c - 1]) {
+      // Moving left: character B[c-1] not used in LCS
+      c = c - 1;
+    } else if (dp[r][c] == dp[r - 1][c]) {
+      // Moving up: character A[r-1] not used in LCS
+      r = r - 1;
+    } else {
+      // Diagonal move: A[r-1] == B[c-1] is part of the LCS
+      result += B[c - 1]; // or A[r - 1], they are equal
+      r = r - 1;
+      c = c - 1;
     }
+  }
 
-    reverse(result.begin(), result.end());
+  reverse(result.begin(), result.end());
+  return result;
+}
 
-    cout << result.size() << '\n';
-    if (result.size())
-    {
-        cout << result << '\n';
-    }
+int main() {
+  string A = "ABCBDAB";
+  string B = "BDCABA";
 
-    return 0;
+  auto dp = buildLCSdp(A, B);
+  string lcs = reconstructLCS(A, B, dp);
+
+  cout << "Length of LCS: " << dp[A.size()][B.size()] << "\n";
+  cout << "LCS: " << lcs << "\n";
+
+  return 0;
 }
