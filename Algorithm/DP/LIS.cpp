@@ -1,75 +1,31 @@
-#include <algorithm>
-#include <iostream>
-#include <stack>
-#include <vector>
+int n = nums.size();
+vector<int> tails;         // 값
+vector<int> pos;           // 각 길이의 마지막 원소 인덱스
+vector<int> parent(n, -1); // 각 원소의 이전 원소 인덱스
 
-using namespace std;
-typedef pair<int, int> pii;
+for (int i = 0; i < n; ++i) {
+  int x = nums[i];
+  int idx = lower_bound(tails.begin(), tails.end(), x) - tails.begin();
 
-vector<int> dp; // LIS length up to this index
-vector<int> arr;
-vector<int> idx;
-vector<pii> arr2; // arr that preserve the LIS . {element, idx}
-
-bool comp(const pii &a, const pii &b) { return a.first < b.first; }
-
-int main() {
-  ios::sync_with_stdio(false);
-  cin.tie(0);
-
-  int N;
-  cin >> N;
-
-  arr.resize(N + 1);
-  dp.resize(N + 1);
-  idx.resize(N + 1);
-
-  int temp;
-  for (int i = 1; i < N + 1; i++) {
-    cin >> temp;
-    arr[i] = temp;
+  if (idx == (int)tails.size()) {
+    tails.push_back(x);
+    pos.push_back(i);
+  } else {
+    tails[idx] = x;
+    pos[idx] = i;
   }
 
-  // push the first element in advance
-  dp[1] = 1;
-  idx[1] = -1;
-  arr2.push_back({arr[1], 1});
-
-  for (int i = 2; i < N + 1; i++) {
-    auto lowIdx =
-        lower_bound(arr2.begin(), arr2.end(), make_pair(arr[i], i), comp) -
-        arr2.begin();
-    if (lowIdx == arr2.size()) {
-      arr2.push_back({arr[i], i});
-      int before = arr2[lowIdx - 1].second;
-      dp[i] = dp[before] + 1;
-      idx[i] = before;
-    } else {
-      arr2[lowIdx] = {arr[i], i};
-      if (lowIdx == 0) {
-        idx[i] = -1;
-        dp[i] = 1;
-      } else {
-        int before = arr2[lowIdx - 1].second;
-        dp[i] = dp[before] + 1;
-        idx[i] = before;
-      }
-    }
+  if (idx > 0) {
+    parent[i] = pos[idx - 1]; // 나보다 한 단계 짧은 LIS의 마지막 인덱스
   }
+}
 
-  cout << arr2.size() << '\n';
+// tails.size() 가 LIS 길이
+int len = tails.size();
+vector<int> lis(len);
+int cur = pos[len - 1]; // 마지막 원소 인덱스
 
-  stack<int> stk;
-  int num = arr2[arr2.size() - 1].second;
-  while (num != -1) {
-    stk.push(arr[num]);
-    num = idx[num];
-  }
-
-  while (!stk.empty()) {
-    cout << stk.top() << ' ';
-    stk.pop();
-  }
-
-  return 0;
+for (int k = len - 1; k >= 0; --k) {
+  lis[k] = nums[cur];
+  cur = parent[cur];
 }
